@@ -138,8 +138,9 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender,Command $command,string $label,array $args): bool {
-  switch(strtolower($cmd->getName())){
+  public function onCommand(CommandSender $sender,Command $command,string $label,array $args){ bool
+  {
+     if(!isset($args[0])) $args[0] = "help";
       case "help":
         $msgs = ['Staff chat help menu','say <message> - chat into staff chat','on - enable chatting mode','off - disable chatting mode','toggle - toggle chatting mode',//'config - config command',//maybe latter...
          'reload - reloads and flushes internal data','attach <true|false> - attach console into staff chat','check <player> - checks other player status',//'setl [-fs] <player> <true|false> - sets other players listen status',
