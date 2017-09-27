@@ -20,7 +20,7 @@ class StaffChat extends PluginBase implements Listener
 {
   const permChat = 'staffchat.chat';
   const permRead = 'staffchat.read';
-  const errPerm = TextFormat::RED.'Insufficient Permissions';
+  const errPerm = TextFormat::RED.'You do not have Permissions';
   private $console = true;
   private $prefix = '.';
   private $format = '';
