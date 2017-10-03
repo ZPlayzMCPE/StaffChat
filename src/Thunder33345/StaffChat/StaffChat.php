@@ -65,7 +65,7 @@ class StaffChat extends PluginBase implements Listener
     if($this->console) $this->getServer()->getLogger()->info($this->consolePrefix.$message);
   }
 
-  private function playerBroadcast(Player $player,$message)
+  private function playerBroadcast(Player $player, $message)
   {
     if(strlen($this->format) <= 0) $this->format = $this->replaceColour($this->getConfig()->get('player-format'));
     $formatted = str_replace('%player%',$player->getName(),$this->format);
@@ -117,7 +117,7 @@ class StaffChat extends PluginBase implements Listener
             $notify->getLevel()->addSound(new EndermanTeleportSound($notify), $notify);
             $notify->getLevel()->addSound(new AnvilFallSound($notify), $notify);
           }
-          $message = str_replace('$ping',TextFormat::BOLD.TextFormat::GREEN.'$ping'.TextFormat::RESET,$message);
+          $message = str_replace('$ping',TextFormat::BOLD.TextFormat::GREEN.'$ping'.TextFormat::RESET, $message);
           break;
         case '$near':
           preg_match_all('/\$near([0-9]+)\$/',$message, $matches);
@@ -138,7 +138,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender, Command $command, string $label, array $args) :bool {
+  public function onCommand(CommandSender $sender, Command $command, string $label, array $args : bool)
   {
      if(!isset($args[0])) $args[0] = "help";
       case "help":
@@ -155,14 +155,14 @@ class StaffChat extends PluginBase implements Listener
       case "say":
         if($sender->hasPermission(self::permChat) OR $sender instanceof ConsoleCommandSender) {
           array_shift($args);
-          $this->consoleBroadcast($sender,implode(" ",$args));
+          $this->consoleBroadcast($sender,implode(" ", $args));
         } else $sender->sendMessage(self::errPerm);
         break;
 
       case "on":
         if($sender->hasPermission(self::permRead)) {
           if($sender instanceof Player) {
-            $this->setChatting($sender,true);
+            $this->setChatting($sender, true);
             $sender->sendMessage(TextFormat::GREEN.'[ON] All messages will now go directly into STAFF chat!');
           } else $sender->sendMessage('Please run this command as player');
         } else $sender->sendMessage(self::errPerm);
@@ -170,7 +170,7 @@ class StaffChat extends PluginBase implements Listener
       case "off":
         if($sender->hasPermission(self::permRead)) {
           if($sender instanceof Player) {
-            $this->setChatting($sender,false);
+            $this->setChatting($sender, false);
             $sender->sendMessage(TextFormat::GREEN.'[OFF] All messages will now go into NORMAL chat!');
           } else $sender->sendMessage('Please run this command as player');
         } else $sender->sendMessage(self::errPerm);
@@ -178,7 +178,7 @@ class StaffChat extends PluginBase implements Listener
       case "toggle":
         if($sender->hasPermission(self::permRead)) {
           if($sender instanceof Player) {
-            $this->setChatting($sender,!$this->isChatting($sender));
+            $this->setChatting($sender, !$this->isChatting($sender));
             $sender->sendMessage(TextFormat::GREEN."Staff Chat: ".$this->getReadableState($sender));
           } else $sender->sendMessage('Please run this command as player');
         } else $sender->sendMessage(self::errPerm);
