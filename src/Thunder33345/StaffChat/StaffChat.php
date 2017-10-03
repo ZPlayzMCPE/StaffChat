@@ -1,7 +1,7 @@
 <?php
 /** Created By Thunder33345 **/
 
-namespace Thunder33345\StaffChat;
+namespace Thunder33345;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -138,7 +138,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender, Command $command, string $label, array $args : bool)
+  public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool{
   {
      if(!isset($args[0])) $args[0] = "help";
       case "help":
