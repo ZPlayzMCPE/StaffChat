@@ -78,7 +78,7 @@ class StaffChat extends PluginBase implements Listener
   {
     if($sender instanceof Player) {
       $this->playerBroadcast($sender,$message);
-      return;
+      return true;
     }
     if(strlen($this->format) <= 0) $this->format = $this->replaceColour($this->getConfig()->get('player-format'));
     $formatted = str_replace('%player%',$sender->getName(),$this->format);
@@ -138,7 +138,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender, Command $command, string $label, array $args){ bool;
+  public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
   {
      if(!isset($args[0])) $args[0] = "help";
       case "help":
@@ -214,7 +214,7 @@ class StaffChat extends PluginBase implements Listener
       case "check":
         if(!$sender->hasPermission('staffchat.check')) {
           $sender->sendMessage(self::errPerm);
-          return;
+          return true;
         }
         if(!isset($args[1])) {
           if($sender instanceof Player) {
@@ -227,7 +227,7 @@ class StaffChat extends PluginBase implements Listener
         }
         if(($player = $this->getServer()->getPlayer($args[1])) === null) {
           $sender->sendMessage('Player "'.$args[1].'" cant be found');
-          return;
+          return true;
         }
         $sender->sendMessage('Status of "'.$player->getName().'"');
         $sender->sendMessage('Can chat: '.$this->readableTrueFalse($player->hasPermission(self::permChat)),'yes','no');
@@ -237,7 +237,7 @@ class StaffChat extends PluginBase implements Listener
       case "list":
         if(!$sender->hasPermission('staffchat.list')) {
           $sender->sendMessage(self::errPerm);
-          return;
+          return true;
         }
         $canChatAndRead = [];
         $canChat = [];
@@ -306,14 +306,14 @@ class StaffChat extends PluginBase implements Listener
     if($sub === $this->prefix) {
       $event->setCancelled(true);
       if(!$player->hasPermission(self::permChat)) {
-        return;
+        return true;
       }
       $message = substr($message,strlen($this->prefix));
       $this->playerBroadcast($player,$message);
     } elseif($this->isChatting($player)) {
       if(!$player->hasPermission(self::permChat)) {
         $this->setChatting($player,false);
-        return;
+        return true;
       }
       $event->setCancelled(true);
       $this->playerBroadcast($player,$message);
