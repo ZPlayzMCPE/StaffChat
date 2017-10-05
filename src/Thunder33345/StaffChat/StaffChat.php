@@ -138,7 +138,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender, Command $command, string $label, array $args) bool{
+  public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
   {
      if(!isset($args[0])) $args[0] = "help";
       case "help":
@@ -371,7 +371,7 @@ class StaffChat extends PluginBase implements Listener
    * @param $player string|Player|CommandSender Player to check
    * @return bool player is chatting status
    */
-  public function isChatting($player): bool
+  public function isChatting($player)
   {
     if($player instanceof CommandSender) if($player instanceof Player) $player = $player->getName(); else return false;
     $player = strtolower($player);
@@ -396,7 +396,7 @@ class StaffChat extends PluginBase implements Listener
    * @param $player string|Player|CommandSender Player to set
    * @param bool $state
    */
-  public function setChatting($player, bool $state)
+  public function setChatting($player, $state)
   {
     if($player instanceof CommandSender) if($player instanceof Player) $player = $player->getName(); else return false;
     $player = strtolower($player);
@@ -419,13 +419,13 @@ class StaffChat extends PluginBase implements Listener
    * sets console attachment state
    * @param bool $state weather console is attached
    */
-  public function setConsoleState(bool $state) { $this->console = $state; }
+  public function setConsoleState($state) { $this->console = $state; }
 
   /**
    * gets if console is attached to staff chat
    * @return bool
    */
-  public function getConsoleState(): bool { return $this->console; }
+  public function getConsoleState() { return $this->console; }
 
   /**
    * get readable console attachment state
@@ -445,7 +445,7 @@ class StaffChat extends PluginBase implements Listener
    * @param string $false what to return if false
    * @return string result in string
    */
-  public function readableTrueFalse(bool $statement,$true = 'true', $false = 'false')
+  public function readableTrueFalse($statement,$true = 'true', $false = 'false')
   {
     if($statement) return $true; else return $false;
   }
@@ -467,7 +467,7 @@ class StaffChat extends PluginBase implements Listener
    * @param bool $notify do you want to notify players in staffchat
    */
 
-  public function flush(string $message = '',bool $notify = true)
+  public function flush(string $message = '',$notify = true)
   {
     $this->getConfig()->reload();
     $this->prefix = $this->getConfig()->get('prefix',".");
