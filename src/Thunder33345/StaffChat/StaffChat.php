@@ -59,7 +59,7 @@ class StaffChat extends PluginBase implements Listener
 
   }
 
-  private function rawBroadcast($message)
+  private function rawBroadcast(string $message)
   {
     foreach($this->getReadPlayers() as $player) $player->sendMessage($message);
     if($this->console) $this->getServer()->getLogger()->info($this->consolePrefix.$message);
@@ -138,7 +138,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
+  public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
   {
      if(!isset($args[0])) $args[0] = "help";
       case "help":
