@@ -71,8 +71,7 @@ class StaffChat extends PluginBase implements Listener
     $this->rawBroadcast($formatted);
   }
 
-  private function consoleBroadcast(CommandSender $sender,$message)
-  {
+  private function consoleBroadcast(CommandSender $sender,$message){
     if($sender instanceof Player) {
       $this->playerBroadcast($sender,$message);
       return;
@@ -133,8 +132,7 @@ class StaffChat extends PluginBase implements Listener
     return $message;
   }
 
-  public function onCommand(CommandSender $sender,Command $command,string $label,array $args) : bool{
-  {
+  public function onCommand(CommandSender $sender, Command $command, string $label,array $args) : bool{
     $fcommand = strtolower($command->getName());
     	switch($fcommand){
       if(isset($args[0])){
@@ -193,13 +191,11 @@ class StaffChat extends PluginBase implements Listener
       }elseif($args[0]=="attach"){
         if(!$sender->hasPermission('staffchat.attach') AND !$sender instanceof ConsoleCommandSender) $sender->sendMessage(self::errPerm);
         if(isset($args[1])) switch($args[1]){
-          }elseif($args[0]=="on"){
           }elseif($args[0]=="true"){
             $this->setConsoleState(true);
             $this->getLogger()->notice("Console has been attached to staff chat by ".$sender->getName());
             break;
           }elseif($args[0]=="false"){
-          }elseif($args[0]=="off"){
             $this->getLogger()->notice("Console has been detach from staff chat by ".$sender->getName());
             $this->setConsoleState(false);
             break;
