@@ -142,7 +142,7 @@ class StaffChat extends PluginBase implements Listener
     if(!isset($args[0])) $args[0] = "help";
     switch($args[0]){
       case "help":
-        $msgs = ['§aStaff§2Chat §dHelp page','§b/say <message> §3- chat into staff chat','§b/on §3- enable Staff chatting mode','§b/off §3- disable Staff chatting mode','§btoggle §3- toggle chatting mode',//'config - config command',//maybe latter...
+        $msgs = ['§5Page','§b/say <message> §3- chat into staff chat','§b/on §3- enable Staff chatting mode','§b/off §3- disable Staff chatting mode','§btoggle §3- toggle chatting mode',//'config - config command',//maybe latter...
          '§b/reload §3- reloads and flushes internal data','§b/attach <true|false> §3- attach console into staff chat','§b/check <player> §3- checks other player status',//'setl [-fs] <player> <true|false> - sets other players listen status',
           //'setc [-fs] <player> <true|false> - sets other players chat status',
           //'-f to forcefully set player status regardless of their permission',
