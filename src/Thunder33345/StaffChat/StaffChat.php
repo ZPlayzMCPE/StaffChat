@@ -142,15 +142,15 @@ class StaffChat extends PluginBase implements Listener
     if(!isset($args[0])) $args[0] = "help";
     switch($args[0]){
       case "help":
-        $msgs = ['Staff chat help menu','say <message> - chat into staff chat','on - enable chatting mode','off - disable chatting mode','toggle - toggle chatting mode',//'config - config command',//maybe latter...
-         'reload - reloads and flushes internal data','attach <true|false> - attach console into staff chat','check <player> - checks other player status',//'setl [-fs] <player> <true|false> - sets other players listen status',
+        $msgs = ['§aStaff§2Chat §dHelp page','§b/say <message> §3- chat into staff chat','§b/on §3- enable Staff chatting mode','§b/off §3- disable Staff chatting mode','§btoggle §3- toggle chatting mode',//'config - config command',//maybe latter...
+         '§b/reload §3- reloads and flushes internal data','§b/attach <true|false> §3- attach console into staff chat','§b/check <player> §3- checks other player status',//'setl [-fs] <player> <true|false> - sets other players listen status',
           //'setc [-fs] <player> <true|false> - sets other players chat status',
           //'-f to forcefully set player status regardless of their permission',
           //'-s silently sets staffchat status',
           //'-n dont notify other staff(only for players with insufficient permissions)',
          'author - show author info',//' - ',
         ];
-        foreach($msgs as $msg) $sender->sendMessage(TextFormat::GOLD."Staff Chat Help> ".$msg);
+        foreach($msgs as $msg) $sender->sendMessage(TextFormat::GOLD."§aStaff §2Chat §dHelp ".$msg);
         return true;
         break;
       case "say":
@@ -165,7 +165,7 @@ class StaffChat extends PluginBase implements Listener
         if($sender->hasPermission(self::permRead)) {
           if($sender instanceof Player) {
             $this->setChatting($sender,true);
-            $sender->sendMessage(TextFormat::GREEN.'[ON] All messages will now go directly into STAFF chat!');
+            $sender->sendMessage(TextFormat::GREEN.'§7[§bON§7] §dAll messages will now go directly into STAFF chat!');
           } else $sender->sendMessage('Please run this command as player');
         } else $sender->sendMessage(self::errPerm);
         return true;
@@ -174,7 +174,7 @@ class StaffChat extends PluginBase implements Listener
         if($sender->hasPermission(self::permRead)) {
           if($sender instanceof Player) {
             $this->setChatting($sender,false);
-            $sender->sendMessage(TextFormat::GREEN.'[OFF] All messages will now go into NORMAL chat!');
+            $sender->sendMessage(TextFormat::GREEN.'§7[§cOFF§7] §cAll messages will now go into NORMAL chat!');
           } else $sender->sendMessage('Please run this command as player');
         } else $sender->sendMessage(self::errPerm);
         return true;
@@ -196,7 +196,7 @@ class StaffChat extends PluginBase implements Listener
           break;
         }
         $this->flush();
-        $sender->sendMessage(TextFormat::GREEN."Successfully flushed internal data...");
+        $sender->sendMessage(TextFormat::GREEN."§dSuccessfully flushed internal data...");
         return true;
         break;
       case "attach":
@@ -205,20 +205,20 @@ class StaffChat extends PluginBase implements Listener
           case "on":
           case "true":
             $this->setConsoleState(true);
-            $this->getLogger()->notice("Console has been attached to staff chat by ".$sender->getName());
+            $this->getLogger()->notice("§dConsole has been attached to staff chat by §5".$sender->getName());
             return true;
             break;
           case "false":
           case "off":
-            $this->getLogger()->notice("Console has been detach from staff chat by ".$sender->getName());
+            $this->getLogger()->notice("§cConsole has been detach from staff chat by §4".$sender->getName());
             $this->setConsoleState(false);
             return true;
             break;
           default:
-            $sender->sendMessage("/staffchat attach <true|false>");
+            $sender->sendMessage("§aPlease use: §2/staffchat attach <true|false>");
             return true;
             break;
-        } else $sender->sendMessage("/staffchat attach <true|false>");
+        } else $sender->sendMessage("§aPlease use: §2/staffchat attach <true|false>");
         $sender->sendMessage(TextFormat::GREEN.'Console State: '.$this->getReadableConsoleState());
         return true;
         break;
@@ -229,21 +229,21 @@ class StaffChat extends PluginBase implements Listener
         }
         if(!isset($args[1])) {
           if($sender instanceof Player) {
-            $sender->sendMessage('No player provided using yourself instated');
+            $sender->sendMessage('§cNo player provided using yourself instated');
             $args[1] = $sender->getName();
           } else {
-            $sender->sendMessage("Please input player's name");
+            $sender->sendMessage("§6Please input player's name");
           }
 
         }
         if(($player = $this->getServer()->getPlayer($args[1])) === null) {
-          $sender->sendMessage('Player "'.$args[1].'" cant be found');
+          $sender->sendMessage('Player "'.$args[1].'" §ccant be found');
           return true;
         }
-        $sender->sendMessage('Status of "'.$player->getName().'"');
-        $sender->sendMessage('Can chat: '.$this->readableTrueFalse($player->hasPermission(self::permChat)),'yes','no');
-        $sender->sendMessage('Can read: '.$this->readableTrueFalse($player->hasPermission(self::permRead)),'yes','no');
-        $sender->sendMessage('Is chatting: '.$this->getReadableState($player,'yes','no'));
+        $sender->sendMessage('§aStaff§2Chat §6Status of§b "'.$player->getName().'"');
+        $sender->sendMessage('§5Can chat:§d '.$this->readableTrueFalse($player->hasPermission(self::permChat)),'yes','no');
+        $sender->sendMessage('§5Can read:§d '.$this->readableTrueFalse($player->hasPermission(self::permRead)),'yes','no');
+        $sender->sendMessage('§5Is chatting:§d '.$this->getReadableState($player,'yes','no'));
         break;
       case "list":
         if(!$sender->hasPermission('staffchat.list')) {
@@ -262,12 +262,12 @@ class StaffChat extends PluginBase implements Listener
           }
         }
         $chatting = $this->getChatting();
-        $sender->sendMessage('Info List Of Online Players');
+        $sender->sendMessage('§aInfo List Of Online Staff Members');
         if(count($canChatAndRead) > 0) $sender->sendMessage('Can Chat And Read('.count($canChatAndRead).') :'.implode(',',$canChatAndRead));
-        if(count($canChat) > 0) $sender->sendMessage('Can Chat('.count($canChat).') :'.implode(',',$canChat));
-        if(count($canRead) > 0) $sender->sendMessage('Can Read('.count($canRead).') :'.implode(',',$canChat));
-        if(count($chatting) > 0) $sender->sendMessage('Is Chatting('.count($chatting).'): '.implode(',',$chatting));
-        $sender->sendMessage('End Of Info List');
+        if(count($canChat) > 0) $sender->sendMessage('§5Can Chat§d('.count($canChat).') :'.implode(',',$canChat));
+        if(count($canRead) > 0) $sender->sendMessage('§5Can Read§d('.count($canRead).') :'.implode(',',$canChat));
+        if(count($chatting) > 0) $sender->sendMessage('§5Is Chatting§d('.count($chatting).'): '.implode(',',$chatting));
+        $sender->sendMessage('§2End Of Info List');
         return true;
         break;
       case "author":
@@ -277,17 +277,17 @@ class StaffChat extends PluginBase implements Listener
       case "v":
       case "ver":
       case "version":
-        $sender->sendMessage(TextFormat::GREEN.'Staff Chat Running Version: '.$this->getDescription()->getVersion());
-        $sender->sendMessage(TextFormat::GREEN.'Staff Chat is created by @Thunder33345');
-        $sender->sendMessage(TextFormat::GREEN.'Plugin repo: github.com/ThunderDoesPlugins/StaffChat');
-        $sender->sendMessage(TextFormat::GREEN.'My discord server invite is there');
-        $sender->sendMessage(TextFormat::GREEN.'My Github: github.com/Thunder33345');
-        $sender->sendMessage(TextFormat::GREEN.'My Plugin Github: github.com/ThunderDoesPlugins Go over there to grab some free goodies like this!');
-        $sender->sendMessage(TextFormat::GREEN.'My Personal Twitter Account: twitter.com/Thunder33345 or @thunder33345 (feel free to ask for bug fixes!)');
+        $sender->sendMessage(TextFormat::GREEN.'§aStaff §2Chat §6Running Version:§e '.$this->getDescription()->getVersion());
+        $sender->sendMessage(TextFormat::GREEN.'§bStaff Chat is created by §3VMPE Development Team');
+        $sender->sendMessage(TextFormat::GREEN.'§bPlugin repo: §3Not showing.');
+        $sender->sendMessage(TextFormat::GREEN.'§bZeaos discord: §3http://tinyurl.com/zeaodc');
+        $sender->sendMessage(TextFormat::GREEN.'§bWebsite: §cComing Soon.');
+        $sender->sendMessage(TextFormat::GREEN.'§bMy Plugin Github: §cNot showing');
+        $sender->sendMessage(TextFormat::GREEN.'§bMy discord: §3Zeao#9648');
         return true;
         break;
       default:
-        $sender->sendMessage(TextFormat::RED."Command Not Found");
+        $sender->sendMessage(TextFormat::RED."§cThis Command appears to be Not Found. Please do /staffchat for more information.");
         return true;
         break;
     }
@@ -493,7 +493,7 @@ class StaffChat extends PluginBase implements Listener
     $this->leaveMsg = $this->replaceColour($this->getConfig()->get('leave'));
 
     if($notify) {
-      if(strlen($message) == 0) $message = TextFormat::RED.'Staff Chat> All message will now go into NORMAL chat';
+      if(strlen($message) == 0) $message = TextFormat::RED.'§aStaff §2Chat - §dAll message will now go into NORMAL chat';
       foreach($this->getChatting() as $player => $chatting){
         $this->getServer()->getPlayerExact($player)->sendMessage($message);
       }
